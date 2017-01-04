@@ -1,4 +1,4 @@
-from test_chain_meta import TestChainMeta
+from .test_chain_meta import TestChainMeta
 import unittest
 
 class TestChain(unittest.TestCase, metaclass=TestChainMeta):

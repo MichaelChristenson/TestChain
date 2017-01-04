@@ -1,6 +1,8 @@
 test_chain/__init__.py
 test_chain/example.py
-test_chain/test_chain.py
+test_chain/test_chain2.py
+test_chain/test_chain3.py
+test_chain/test_chain_meta.py
 test_chain.egg-info/PKG-INFO
 test_chain.egg-info/SOURCES.txt
 test_chain.egg-info/dependency_links.txt
