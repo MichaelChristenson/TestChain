@@ -1,4 +1,0 @@
-testchain.egg-info/PKG-INFO
-testchain.egg-info/SOURCES.txt
-testchain.egg-info/dependency_links.txt
-testchain.egg-info/top_level.txt
