@@ -55,7 +55,6 @@ def skip_if_already_done(func, skip_args=1):
             if history.count('done_decorators') != 1:  # determine if this is the original test
                 raise unittest.SkipTest('%s threw the exception %s' % (func.__name__, results[hash_]))
             raise results[hash_]
-
         return results[hash_]
 
     return done_decorators
