@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 plugins = []
 setup(
-    name='testchain',
+    name='test_chain',
     version='0.0.1',
     description="""This contains unit test automation material, specifically a
                 metaclass that automatically wraps testing functions""",

@@ -12,21 +12,21 @@ import inspect
 from functools import wraps
 import unittest
 
-domain_folder = os.path.abspath(__file__).split('flask')[0][:-1]
-
 def currentframe():
     """Return the frame of the caller or None if this is not possible."""
     return sys._getframe(1) if hasattr(sys, "_getframe") else None
+
 
 def function_arguments(func):
     """
     :param func: callable object
     :return: list of str of the arguments for the function
     """
-    if getattr(inspect,'signature',None) is None:
+    if getattr(inspect, 'signature', None) is None:
         return inspect.getargspec(func).args
     else:
         return list(inspect.signature(func).parameters.keys())
+
 
 def skip_if_already_done(func, skip_args=1):
     """ This will store the results and return them if the function is called twice """
@@ -60,6 +60,7 @@ def skip_if_already_done(func, skip_args=1):
 
     return done_decorators
 
+
 def function_history():
     """
     This will return a list of all function calls going back to the beginning
@@ -76,6 +77,7 @@ def function_history():
             break
     return ret
 
+
 class TestChainMeta(type):
     def __new__(cls, name, bases, attrs):
         """
@@ -88,7 +90,6 @@ class TestChainMeta(type):
         ring = list(ref.keys())
         for i in range(len(ring)):
             key = ring[i]
-            print("Looking at %s"%key)
             original_func = getattr(class_, key, None)
             if (key.startswith('test_') and inspect.isfunction(original_func) and
                         getattr(original_func, 'original_func', None) is None):
