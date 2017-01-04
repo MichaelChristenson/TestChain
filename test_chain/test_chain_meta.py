@@ -12,16 +12,26 @@ import inspect
 from functools import wraps
 import unittest
 
-domain_folder = os.path.abspath(__file__).split('flask')[0][:-1]
-
 def currentframe():
     """Return the frame of the caller or None if this is not possible."""
     return sys._getframe(1) if hasattr(sys, "_getframe") else None
 
+
+def function_arguments(func):
+    """
+    :param func: callable object
+    :return: list of str of the arguments for the function
+    """
+    if getattr(inspect, 'signature', None) is None:
+        return inspect.getargspec(func).args
+    else:
+        return list(inspect.signature(func).parameters.keys())
+
+
 def skip_if_already_done(func, skip_args=1):
     """ This will store the results and return them if the function is called twice """
     results = {}
-    func_args = inspect.getargspec(func).args
+    func_args = function_arguments(func)
 
     @wraps(func)
     def done_decorators(*args, **kwargs):
@@ -45,10 +55,10 @@ def skip_if_already_done(func, skip_args=1):
             if history.count('done_decorators') != 1:  # determine if this is the original test
                 raise unittest.SkipTest('%s threw the exception %s' % (func.__name__, results[hash_]))
             raise results[hash_]
-
         return results[hash_]
 
     return done_decorators
+
 
 def function_history():
     """
@@ -66,6 +76,7 @@ def function_history():
             break
     return ret
 
+
 class TestChainMeta(type):
     def __new__(cls, name, bases, attrs):
         """
@@ -78,10 +89,9 @@ class TestChainMeta(type):
         ring = list(ref.keys())
         for i in range(len(ring)):
             key = ring[i]
-            print("Looking at %s"%key)
             original_func = getattr(class_, key, None)
-            if (key.startswith('test_') and inspect.isfunction(original_func) and
-                        getattr(original_func, 'original_func', None) is None):
+            if (key.startswith('test_') and getattr(original_func, 'original_func', None) is None and
+                    (inspect.ismethod(original_func) or inspect.isfunction(original_func))):
                 new_func = skip_if_already_done(original_func)
                 new_func.original_func = original_func
                 setattr(class_, key, new_func)
