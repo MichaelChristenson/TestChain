@@ -18,10 +18,20 @@ def currentframe():
     """Return the frame of the caller or None if this is not possible."""
     return sys._getframe(1) if hasattr(sys, "_getframe") else None
 
+def function_arguments(func):
+    """
+    :param func: callable object
+    :return: list of str of the arguments for the function
+    """
+    if getattr(inspect,'signature',None) is None:
+        return inspect.getargspec(func).args
+    else:
+        return list(inspect.signature(func).parameters.keys())
+
 def skip_if_already_done(func, skip_args=1):
     """ This will store the results and return them if the function is called twice """
     results = {}
-    func_args = inspect.getargspec(func).args
+    func_args = function_arguments(func)
 
     @wraps(func)
     def done_decorators(*args, **kwargs):
