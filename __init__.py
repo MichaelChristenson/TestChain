@@ -1,5 +1,6 @@
 from test_chain import *
-from example import TestChainMeta as TestChainMeta
+from test_chain import TestChainMeta as TestChainMeta
+import sys
 
 if sys.version_info[0] == 2:
     class TestChain(unittest.TestCase):
