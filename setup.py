@@ -14,8 +14,8 @@ setup(
     packages=find_packages(exclude=()),
     license='',
     classifiers=(
-        'Development Status :: 1 - Beta',
-        'Intended Audience :: Testers',
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
         'Natural Language :: English',
         'License :: Other/Proprietary License',
         'Operating System :: POSIX :: Linux',

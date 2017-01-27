@@ -90,8 +90,8 @@ class TestChainMeta(type):
         for i in range(len(ring)):
             key = ring[i]
             original_func = getattr(class_, key, None)
-            if (key.startswith('test_') and inspect.isfunction(original_func) and
-                        getattr(original_func, 'original_func', None) is None):
+            if (key.startswith('test_') and getattr(original_func, 'original_func', None) is None and
+                    (inspect.ismethod(original_func) or inspect.isfunction(original_func))):
                 new_func = skip_if_already_done(original_func)
                 new_func.original_func = original_func
                 setattr(class_, key, new_func)
